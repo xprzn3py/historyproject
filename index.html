@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>식민사관 인식 점검 프로그램</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin-top: 32px;
+      font-size: 1.4rem;
+    }
+
+    p {
+      line-height: 1.6;
+      margin: 6px 0;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin: 14px 0;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .question-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px 18px 10px;
+      margin: 12px 0;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    }
+
+    .category-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      margin-bottom: 6px;
+    }
+
+    .question-text {
+      font-weight: 500;
+      margin: 4px 0 8px;
+    }
+
+    .options label {
+      margin-right: 10px;
+      font-size: 0.92rem;
+    }
+
+    .options input[type="radio"] {
+      margin-right: 2px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      background: #4f46e5;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.1s;
+    }
+
+    button:hover {
+      background: #4338ca;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(79, 70, 229, 0.45);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+    }
+
+    .results-section {
+      margin-top: 24px;
+    }
+
+    .metric {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .overall-score {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1f2933;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: #ecfeff;
+      color: #0891b2;
+      margin-left: 6px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #4f46e5, #22c55e);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .category-block {
+      margin-top: 14px;
+    }
+
+    .category-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .category-desc {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 70px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+
+    .highlight {
+      background: #fef3c7;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    .small {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 16px 10px 32px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>🧠 무의식 속 식민사관 점검 & 역사 인식 재구성</h1>
+    <p class="small">
+      이 페이지는 당신을 평가하거나 비난하기 위한 도구가 아닙니다.<br>
+      일제 식민지 시기에 만들어진 역사 인식의 흔적이 지금 우리의 생각 속에 얼마나 남아 있는지 점검하고,<br>
+      보다 주체적인 역사관으로 다시 생각해 보도록 돕기 위한 <b>성찰 도구</b>입니다.
+    </p>
+
+    <div class="card">
+      <h2>1. 문장에 대한 동의 정도 응답하기 (1~5점)</h2>
+      <p>
+        각 문장을 읽고, <b>얼마나 동의하는지 1~5점</b>으로 선택해 주세요.
+      </p>
+      <p class="small">
+        1: 전혀 동의하지 않는다 · 2: 동의하지 않는 편이다 · 3: 보통이다 · 4: 동의하는 편이다 · 5: 매우 동의한다
+      </p>
+      <div id="questions"></div>
+      <button id="submitBtn">📊 결과 보기</button>
+    </div>
+
+    <div id="results" class="results-section"></div>
+  </div>
+
+  <script>
+    // ----------------------- 데이터 정의 -----------------------
+
+    const questions = [
+      // 정체성론
+      {
+        id: 1,
+        text: "조선 사회는 본질적으로 낙후되어 근대 문명을 스스로 받아들일 능력이 거의 없었다고 생각한다.",
+        category: "정체성론",
+        corrected:
+          "조선 사회 내부에는 개혁과 근대화를 시도하려는 다양한 움직임이 있었고, 이를 제국주의 침략과 내부 한계가 복합적으로 가로막은 측면이 있다."
+      },
+      {
+        id: 2,
+        text: "한민족은 원래부터 수동적이고 침략성이 없는 민족이라 스스로 역사를 크게 바꾸기 어려웠다고 본다.",
+        category: "정체성론",
+        corrected:
+          "한민족은 시대마다 다양한 방식으로 저항·개혁·창조를 시도해온 주체적인 역사 경험을 가지고 있다."
+      },
+      {
+        id: 3,
+        text: "우리는 원래 약소민족이라, 역사 속에서 늘 다른 나라에 끌려다니는 입장이었다고 느낀다.",
+        category: "정체성론",
+        corrected:
+          "한민족은 강대국 사이에서 어려움을 겪으면서도 외교·전쟁·문화 교류 등 여러 방식으로 상황을 돌파하고자 했던 주체적인 선택을 해왔다."
+      },
+
+      // 타율성론
+      {
+        id: 4,
+        text: "한국 역사는 스스로 방향을 정하기보다는 주변 강대국(중국·일본 등)의 힘에 따라 움직여 왔다고 생각한다.",
+        category: "타율성론",
+        corrected:
+          "한국사는 주변 강대국의 영향을 받으면서도, 그 속에서 나름의 선택과 대응을 해 온 주체적인 역사이다."
+      },
+      {
+        id: 5,
+        text: "조선은 내부에서 변화·발전할 힘이 거의 없어서, 결국 외세에 의해 지배당할 수밖에 없었다고 본다.",
+        category: "타율성론",
+        corrected:
+          "조선은 내부에서 끊임없이 변화와 개혁을 모색했지만, 제국주의 팽창과 국제 정세의 변화 속에서 식민지 지배를 겪게 되었다."
+      },
+      {
+        id: 6,
+        text: "한국의 근대화는 스스로 노력한 결과라기보다, 일본과 같은 외세 덕분에 이루어진 면이 크다고 본다.",
+        category: "타율성론",
+        corrected:
+          "근대화 과정에서 외세의 영향이 있었던 것은 사실이지만, 그 속에서도 한국 사회는 교육·산업·민족운동 등 다양한 영역에서 스스로 근대화를 추구해 왔다."
+      },
+
+      // 당파성론
+      {
+        id: 7,
+        text: "조선은 붕당(당파) 싸움 때문에 나라가 망할 수밖에 없었다고 생각한다.",
+        category: "당파성론",
+        corrected:
+          "조선의 붕당 정치는 갈등만 있었던 것이 아니라 정책을 둘러싼 다양한 논쟁과 견제가 함께 존재했고, 외세 침략과 국제 정세 변화 등의 요인이 복합적으로 작용해 조선의 몰락으로 이어졌다."
+      },
+      {
+        id: 8,
+        text: "우리 역사에서 정치 세력 간의 당쟁은 항상 나라를 뒤흔들고 발전을 가로막는 부정적인 존재였다.",
+        category: "당파성론",
+        corrected:
+          "정치 세력 간의 갈등은 분명 문제를 일으키기도 했지만, 동시에 새로운 정책과 방향을 두고 격렬한 논쟁과 선택이 이루어지는 과정이기도 했다."
+      },
+      {
+        id: 9,
+        text: "조선의 지배층은 끊임없이 권력 다툼만 해 왔기 때문에, 민중을 위해 한 일은 거의 없었다고 본다.",
+        category: "당파성론",
+        corrected:
+          "조선의 지배층 안에는 권력 다툼도 있었지만, 그와 동시에 백성을 위한 개혁을 시도하고 현실 문제를 해결하려고 했던 인물과 움직임도 존재했다."
+      }
+    ];
+
+    const categoryDescriptions = {
+      "정체성론":
+        "정체성론은 한국 민족 자체를 본질적으로 열등·수동적인 존재로 보는 시각으로, ‘우리는 원래 못났다’는 식의 자기 비하적 인식을 강화합니다.",
+      "타율성론":
+        "타율성론은 한국 역사가 주변 강대국에 의해 일방적으로 끌려다녔다고 보는 관점으로, 한국인의 역사적 선택과 주체성을 과소평가하게 만듭니다.",
+      "당파성론":
+        "당파성론은 조선 정치의 모든 문제를 ‘당파 싸움’ 하나로만 설명하는 관점으로, 정치·사회 구조와 국제 정세 등 다양한 요인을 보지 못하게 합니다."
+    };
+
+    // ----------------------- 함수 정의 -----------------------
+
+    function renderQuestions() {
+      const container = document.getElementById("questions");
+      container.innerHTML = "";
+
+      questions.forEach((q) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const optionsHtml = [1, 2, 3, 4, 5]
+          .map(
+            (v) => `
+            <label>
+              <input type="radio" name="q${q.id}" value="${v}">
+              ${v}
+            </label>
+          `
+          )
+          .join("");
+
+        card.innerHTML = `
+          <p class="category-tag">${q.category}</p>
+          <p class="question-text">${q.text}</p>
+          <div class="options small">
+            ${optionsHtml}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function classifyOverallScore(percent) {
+      if (percent < 25) {
+        return "식민사관의 영향이 비교적 낮은 편입니다. 이미 주체적인 역사관을 어느 정도 가지고 있는 것으로 보입니다.";
+      } else if (percent < 50) {
+        return "일부 인식에서 식민사관의 영향이 감지됩니다. 몇 가지 문장을 중심으로 역사 인식을 다시 생각해 볼 필요가 있습니다.";
+      } else if (percent < 75) {
+        return "여러 문장에서 식민사관의 관점이 뚜렷하게 나타납니다. 이번 결과를 계기로 역사 인식을 적극적으로 재정립해 보면 좋겠습니다.";
+      } else {
+        return "여러 핵심 문장에서 식민사관의 관점이 강하게 드러납니다. 하지만 이는 ‘지금 상태’를 보여주는 지표일 뿐이며, 앞으로의 학습과 성찰을 통해 충분히 달라질 수 있습니다.";
+      }
+    }
+
+    function computeResults() {
+      const categoryScores = { "정체성론": 0, "타율성론": 0, "당파성론": 0 };
+      const categoryMax = { "정체성론": 0, "타율성론": 0, "당파성론": 0 };
+      const answers = [];
+
+      // 응답 수집
+      for (const q of questions) {
+        const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+        if (!selected) {
+          alert("모든 문항에 대해 응답해 주세요.");
+          return null;
+        }
+        const score = parseInt(selected.value, 10);
+        answers.push({ question: q, answer: score });
+
+        const contribution = Math.max(0, score - 1); // 1→0, 5→4
+        categoryScores[q.category] += contribution;
+        categoryMax[q.category] += 4;
+      }
+
+      const totalScore = Object.values(categoryScores).reduce((a, b) => a + b, 0);
+      const totalMax = Object.values(categoryMax).reduce((a, b) => a + b, 0);
+      const overallPercent = totalMax > 0 ? (totalScore / totalMax) * 100 : 0;
+
+      return { categoryScores, categoryMax, answers, totalScore, totalMax, overallPercent };
+    }
+
+    function renderResults() {
+      const result = computeResults();
+      if (!result) return;
+
+      const { categoryScores, categoryMax, answers, totalScore, totalMax, overallPercent } = result;
+      const resultsDiv = document.getElementById("results");
+
+      let html = "";
+
+      // 전체 결과
+      html += `
+        <div class="card">
+          <h2>2. 결과 분석</h2>
+          <p class="metric">
+            전체 식민사관 점수:
+            <span class="overall-score">${totalScore} / ${totalMax}</span>
+            <span class="badge">${overallPercent.toFixed(1)}%</span>
+          </p>
+          <p>${classifyOverallScore(overallPercent)}</p>
+        </div>
+      `;
+
+      // 유형별 결과
+      html += `<div class="card"><h2>유형별 결과</h2>`;
+
+      ["정체성론", "타율성론", "당파성론"].forEach((cat) => {
+        const max = categoryMax[cat] || 0;
+        const score = categoryScores[cat] || 0;
+        const percent = max > 0 ? (score / max) * 100 : 0;
+
+        html += `
+          <div class="category-block">
+            <div class="category-title">▶ ${cat}</div>
+            <div class="small">점수: <b>${score} / ${max}</b> · 비율: <b>${percent.toFixed(1)}%</b></div>
+            <div class="bar"><div class="bar-fill" style="width: ${percent}%;"></div></div>
+            <p class="category-desc">${categoryDescriptions[cat]}</p>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+
+      // 식민사관 설명
+      html += `
+        <div class="card">
+          <h2>3. 식민사관이란 무엇인가?</h2>
+          <p>식민사관이란, <b>일제 식민지 지배를 정당화하기 위해 만들어진 역사 해석 틀</b>입니다.</p>
+          <p>주요 특징은 다음과 같습니다.</p>
+          <ul class="small">
+            <li><b>정체성론</b> — 한국 민족은 본질적으로 열등하고 수동적이며, 스스로 발전할 능력이 없다는 시각</li>
+            <li><b>타율성론</b> — 한국 역사는 스스로 방향을 정하지 못하고, 늘 중국·일본 등 외세에 의해 움직였다는 시각</li>
+            <li><b>당파성론</b> — 조선의 몰락을 ‘붕당(당파) 싸움’ 하나로만 설명하며, 복잡한 구조와 국제 정세를 지우는 시각</li>
+          </ul>
+          <p class="small">
+            이러한 시각은 한국인의 주체성과 역동성을 축소하고, 식민 지배를 '어쩔 수 없었던 결과'로 보이게 만듭니다.
+          </p>
+        </div>
+      `;
+
+      // 문장 다시 쓰기
+      html += `
+        <div class="card">
+          <h2>4. 식민사관적 문장을 ‘주체적인 역사 인식’으로 다시 써 보기</h2>
+          <p>
+            아래는 당신이 <b>3~5점(보통 이상으로 동의)</b>을 준 문장들입니다.<br>
+            각 문장을, 한국사의 <b>주체성과 다양성을 살리는 방향</b>으로 한 번 직접 고쳐 써 보고,<br>
+            그 아래에 제시된 예시 문장과 비교해 보세요.
+          </p>
+      `;
+
+      const targetItems = answers.filter((a) => a.answer >= 3);
+
+      if (targetItems.length === 0) {
+        html += `
+          <p class="highlight">
+            3점 이상으로 동의한 문장이 거의 없습니다. 이미 상당히 주체적인 역사 인식을 가지고 있는 것으로 보입니다.
+          </p>
+        `;
+      } else {
+        targetItems.forEach((item, idx) => {
+          const q = item.question;
+          html += `
+            <div class="question-card">
+              <p class="small">문항 ${idx + 1}</p>
+              <p class="category-tag">${q.category}</p>
+              <p class="question-text">${q.text}</p>
+              <p class="small">당신의 동의 정도: <b>${item.answer}점</b></p>
+              <p class="small"><b>직접 다시 써 보기</b></p>
+              <textarea placeholder="이 문장을 주체적인 역사관 관점에서 다시 한 번 써 보세요. (이 내용은 어디에도 저장되지 않습니다.)"></textarea>
+              <p class="small" style="margin-top:8px;"><b>예시 문장(올바른 역사 인식의 한 가지 방향)</b></p>
+              <p class="highlight">${q.corrected}</p>
+            </div>
+          `;
+        });
+      }
+
+      html += `</div>`;
+
+      // 마무리
+      html += `
+        <div class="card">
+          <h2>5. 마무리</h2>
+          <p>
+            오늘 이 페이지에서 나온 결과와 문장들은 ‘정답’이 아니라,<br>
+            우리가 익숙하게 받아들였던 역사 인식을 잠시 멈춰서 되돌아보게 하기 위한 <b>출발점</b>입니다.
+          </p>
+          <p>
+            역사를 바라보는 관점은 언제든지 새롭게 배울 수 있고, 다시 쓸 수 있습니다.<br>
+            앞으로도 다양한 자료를 읽고, 비판적으로 사고하며,<br>
+            <b>우리 역사를 우리의 시선으로 바라보는 연습</b>을 이어가 보세요.
+          </p>
+          <p>
+            언젠가 이 페이지를 다시 사용했을 때,<br>
+            당신의 응답이 어떻게 달라져 있을지 기대해도 좋습니다. 🙂
+          </p>
+        </div>
+      `;
+
+      resultsDiv.innerHTML = html;
+      resultsDiv.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // ----------------------- 초기화 -----------------------
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderQuestions();
+      document.getElementById("submitBtn").addEventListener("click", renderResults);
+    });
+  </script>
+</body>
+</html>
